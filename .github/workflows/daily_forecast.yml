@@ -5,23 +5,22 @@ on:
     - cron: '0 1 * * *'
   workflow_dispatch:
 
-# ✅ FIX 1: Add write permissions
 permissions:
   contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # ✅ Silences the Node.js 20 warning
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ FIX 2: Upgrade to @v4 (fixes Node.js 20 warning)
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # ✅ FIX 3: Pass token so git push works
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # ✅ FIX 4: Upgrade to @v5 (fixes Node.js 20 warning)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
