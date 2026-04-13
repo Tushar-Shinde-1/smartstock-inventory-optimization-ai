@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock — Intelligent Inventory Optimization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon">📦</div>
+            <h2>Smart<span>Stock</span></h2>
+        </div>
+        <div class="nav-section">
+            <span class="nav-label">MODEL ANALYTICS</span>
+            <a href="#" class="nav-link active" data-page="overview">
+                <span class="nav-icon">🏠</span><span>Overview</span>
+            </a>
+            <a href="#" class="nav-link" data-page="comparison">
+                <span class="nav-icon">📊</span><span>Model Comparison</span>
+            </a>
+            <a href="#" class="nav-link" data-page="generalization">
+                <span class="nav-icon">🔬</span><span>Generalization</span>
+            </a>
+            <a href="#" class="nav-link" data-page="features">
+                <span class="nav-icon">🎯</span><span>Feature Importance</span>
+            </a>
+            <a href="#" class="nav-link" data-page="predictions">
+                <span class="nav-icon">📈</span><span>Predictions</span>
+            </a>
+        </div>
+        <div class="nav-section">
+            <span class="nav-label">SMARTSTOCK INSIGHTS</span>
+            <a href="#" class="nav-link" data-page="forecast">
+                <span class="nav-icon">🔮</span><span>Demand Forecast</span>
+            </a>
+            <a href="#" class="nav-link" data-page="inventory">
+                <span class="nav-icon">📐</span><span>Inventory Optimization</span>
+            </a>
+            <a href="#" class="nav-link" data-page="health">
+                <span class="nav-icon">💊</span><span>Stock Health</span>
+            </a>
+            <a href="#" class="nav-link" data-page="recommendations">
+                <span class="nav-icon">🚀</span><span>Recommendations</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <span class="badge">CRISP-ML(Q)</span>
+            <small>Phase 4 & 5</small>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main">
+        <!-- OVERVIEW PAGE -->
+        <section class="page active" id="page-overview">
+            <div class="page-header">
+                <h1>Overview</h1>
+                <p class="subtitle">SmartStock — Intelligent Inventory Optimization · Model Performance Summary</p>
+            </div>
+            <div class="hero-card" id="hero-card">
+                <div class="hero-badge">🏆 BEST MODEL</div>
+                <h2 id="best-model-name">Loading...</h2>
+                <div class="hero-metrics" id="hero-metrics"></div>
+            </div>
+            <div class="grid grid-4" id="dataset-stats"></div>
+            <div class="card mt-24">
+                <h3 class="card-title">Quick Comparison · Test Set</h3>
+                <div class="table-wrapper" id="quick-comparison-table"></div>
+            </div>
+        </section>
+
+        <!-- COMPARISON PAGE -->
+        <section class="page" id="page-comparison">
+            <div class="page-header">
+                <h1>Model Comparison</h1>
+                <p class="subtitle">Side-by-side performance metrics before and after hyperparameter tuning</p>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3 class="card-title">MAE · Mean Absolute Error</h3>
+                    <p class="card-desc">Average prediction error in units (lower is better)</p><canvas
+                        id="chart-mae"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">RMSE · Root Mean Squared Error</h3>
+                    <p class="card-desc">Penalizes large errors more heavily (lower is better)</p><canvas
+                        id="chart-rmse"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">R² · Coefficient of Determination</h3>
+                    <p class="card-desc">Proportion of variance explained (higher is better)</p><canvas
+                        id="chart-r2"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">MAPE · Mean Absolute % Error</h3>
+                    <p class="card-desc">Error as a percentage (lower is better)</p><canvas id="chart-mape"></canvas>
+                </div>
+            </div>
+            <div class="grid grid-2 mt-24">
+                <div class="card">
+                    <h3 class="card-title">🔧 Random Forest · Best Parameters</h3>
+                    <div id="rf-params"></div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">🔧 XGBoost · Best Parameters</h3>
+                    <div id="xgb-params"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GENERALIZATION PAGE -->
+        <section class="page" id="page-generalization">
+            <div class="page-header">
+                <h1>Generalization Analysis</h1>
+                <p class="subtitle">Cross-validation, overfitting diagnostics, and residual analysis</p>
+            </div>
+            <div class="card">
+                <h3 class="card-title">5-Fold Cross-Validation Results</h3>
+                <p class="card-desc">Mean ± Std across 5 independent train/test configurations</p>
+                <div class="grid grid-2 mt-16"><canvas id="chart-cv-mae"></canvas><canvas id="chart-cv-r2"></canvas>
+                </div>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Overfitting Analysis · Train vs Test R²</h3>
+                <canvas id="chart-overfit" style="max-height:350px"></canvas>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Residual Distribution</h3>
+                <div class="grid grid-3 mt-16"><canvas id="chart-resid-lr"></canvas><canvas
+                        id="chart-resid-rf"></canvas><canvas id="chart-resid-xgb"></canvas></div>
+            </div>
+        </section>
+
+        <!-- FEATURE IMPORTANCE PAGE -->
+        <section class="page" id="page-features">
+            <div class="page-header">
+                <h1>Feature Importance</h1>
+                <p class="subtitle">Which factors drive demand predictions the most</p>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3 class="card-title">Random Forest · Top Features</h3><canvas id="chart-fi-rf"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">XGBoost · Top Features</h3><canvas id="chart-fi-xgb"></canvas>
+                </div>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Feature Ranking Comparison</h3>
+                <div class="table-wrapper" id="feature-table"></div>
+            </div>
+        </section>
+
+        <!-- PREDICTIONS PAGE -->
+        <section class="page" id="page-predictions">
+            <div class="page-header">
+                <h1>Predictions</h1>
+                <p class="subtitle">Actual vs Predicted values on the test set (Jul–Dec 2025)</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3 class="card-title">Linear Regression</h3><canvas id="chart-scatter-lr"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Random Forest (Tuned)</h3><canvas id="chart-scatter-rf"></canvas>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">XGBoost (Tuned)</h3><canvas id="chart-scatter-xgb"></canvas>
+                </div>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Sample Predictions Table</h3>
+                <div class="table-wrapper" id="pred-table"></div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SMARTSTOCK PAGES                             -->
+        <!-- ============================================ -->
+
+        <!-- DEMAND FORECAST PAGE -->
+        <section class="page" id="page-forecast">
+            <div class="page-header">
+                <h1>Demand Forecast</h1>
+                <p class="subtitle">Predicted demand per product and brand for optimized stock planning</p>
+            </div>
+            <div class="grid grid-5" id="forecast-summary-cards"></div>
+            <div class="card mt-24">
+                <h3 class="card-title">Product-Level Demand Forecast</h3>
+                <p class="card-desc">Average predicted demand vs historical average, 30-day forecast window</p>
+                <canvas id="chart-product-demand" style="max-height:320px"></canvas>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Detailed Forecast · Product × Brand</h3>
+                <div class="table-wrapper" id="forecast-detail-table"></div>
+            </div>
+        </section>
+
+        <!-- INVENTORY OPTIMIZATION PAGE -->
+        <section class="page" id="page-inventory">
+            <div class="page-header">
+                <h1>Inventory Optimization</h1>
+                <p class="subtitle">Safety Stock, Reorder Points & Economic Order Quantities (95% service level)</p>
+            </div>
+            <div class="grid grid-4" id="inventory-summary-cards"></div>
+            <div class="card mt-24">
+                <h3 class="card-title">Safety Stock & Reorder Points</h3>
+                <p class="card-desc">SS = Z × σ × √(Lead Time) | ROP = (Avg Demand × LT) + SS | Lead Time = 7 days | Z =
+                    1.65</p>
+                <div class="table-wrapper" id="inventory-table"></div>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Stock Level vs Reorder Point</h3>
+                <canvas id="chart-stock-vs-rop" style="max-height:380px"></canvas>
+            </div>
+        </section>
+
+        <!-- STOCK HEALTH PAGE -->
+        <section class="page" id="page-health">
+            <div class="page-header">
+                <h1>Stock Health Analysis</h1>
+                <p class="subtitle">Identify slow-moving, deadstock, and fast-moving products</p>
+            </div>
+            <div class="grid grid-4" id="health-summary-cards"></div>
+            <div class="card mt-24">
+                <h3 class="card-title">Health Distribution</h3>
+                <div class="grid grid-2">
+                    <canvas id="chart-health-pie"></canvas>
+                    <canvas id="chart-turnover"></canvas>
+                </div>
+            </div>
+            <div class="card mt-24">
+                <h3 class="card-title">Stock Health Details</h3>
+                <p class="card-desc">Turnover ratio, days of supply, and recommended action per product-brand</p>
+                <div class="table-wrapper" id="health-table"></div>
+            </div>
+        </section>
+
+        <!-- RECOMMENDATIONS PAGE -->
+        <section class="page" id="page-recommendations">
+            <div class="page-header">
+                <h1>Daily Recommendations</h1>
+                <p class="subtitle">Automated inventory action alerts for today</p>
+            </div>
+            <div class="grid grid-4" id="rec-summary-cards"></div>
+            <div class="alert-feed mt-24" id="alert-feed"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

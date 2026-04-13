@@ -1,0 +1,40 @@
+name: Daily SmartStock Forecast
+
+on:
+  schedule:
+    # Runs at 1:00 AM UTC every single day
+    - cron: '0 1 * * *'
+  # Allows you to click a button to run it manually whenever you want:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy scikit-learn xgboost requests
+
+      - name: Generate New Insights
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python generate_insights.py
+
+      - name: Commit and Push new JSON to Dashboard
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add dashboard/smartstock_insights.json
+          # Only commit if there are changes
+          git diff --quiet && git diff --staged --quiet || git commit -m "Automate daily inventory insights generation"
+          git push
