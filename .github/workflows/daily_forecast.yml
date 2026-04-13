@@ -2,21 +2,28 @@ name: Daily SmartStock Forecast
 
 on:
   schedule:
-    # Runs at 1:00 AM UTC every single day
     - cron: '0 1 * * *'
-  # Allows you to click a button to run it manually whenever you want:
   workflow_dispatch:
+
+# ✅ FIX 1: Add write permissions
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # ✅ FIX 2: Upgrade to @v4 (fixes Node.js 20 warning)
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          # ✅ FIX 3: Pass token so git push works
+          token: ${{ secrets.GITHUB_TOKEN }}
 
+      # ✅ FIX 4: Upgrade to @v5 (fixes Node.js 20 warning)
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -35,6 +42,5 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
           git add dashboard/smartstock_insights.json
-          # Only commit if there are changes
           git diff --quiet && git diff --staged --quiet || git commit -m "Automate daily inventory insights generation"
           git push
