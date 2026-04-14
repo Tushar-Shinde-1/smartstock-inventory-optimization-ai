@@ -50,10 +50,7 @@
                 <span class="nav-icon">🚀</span><span>Recommendations</span>
             </a>
         </div>
-        <div class="sidebar-footer">
-            <span class="badge">CRISP-ML(Q)</span>
-            <small>Phase 4 & 5</small>
-        </div>
+
     </nav>
 
     <!-- Main Content -->
@@ -124,7 +121,9 @@
             <div class="card">
                 <h3 class="card-title">5-Fold Cross-Validation Results</h3>
                 <p class="card-desc">Mean ± Std across 5 independent train/test configurations</p>
-                <div class="grid grid-2 mt-16"><canvas id="chart-cv-mae"></canvas><canvas id="chart-cv-r2"></canvas>
+                <div class="grid grid-2 mt-16">
+                    <div class="chart-container"><canvas id="chart-cv-mae"></canvas></div>
+                    <div class="chart-container"><canvas id="chart-cv-r2"></canvas></div>
                 </div>
             </div>
             <div class="card mt-24">
@@ -133,8 +132,11 @@
             </div>
             <div class="card mt-24">
                 <h3 class="card-title">Residual Distribution</h3>
-                <div class="grid grid-3 mt-16"><canvas id="chart-resid-lr"></canvas><canvas
-                        id="chart-resid-rf"></canvas><canvas id="chart-resid-xgb"></canvas></div>
+                <div class="grid grid-3 mt-16">
+                    <div class="chart-container"><canvas id="chart-resid-lr"></canvas></div>
+                    <div class="chart-container"><canvas id="chart-resid-rf"></canvas></div>
+                    <div class="chart-container"><canvas id="chart-resid-xgb"></canvas></div>
+                </div>
             </div>
         </section>
 
@@ -231,9 +233,9 @@
             <div class="grid grid-4" id="health-summary-cards"></div>
             <div class="card mt-24">
                 <h3 class="card-title">Health Distribution</h3>
-                <div class="grid grid-2">
-                    <canvas id="chart-health-pie"></canvas>
-                    <canvas id="chart-turnover"></canvas>
+                <div class="grid grid-2 mt-16">
+                    <div class="chart-container"><canvas id="chart-health-pie"></canvas></div>
+                    <div class="chart-container"><canvas id="chart-turnover"></canvas></div>
                 </div>
             </div>
             <div class="card mt-24">

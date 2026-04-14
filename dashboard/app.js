@@ -109,7 +109,7 @@ function renderGeneralization() {
 
     [{ key: 'Linear Regression', id: 'chart-resid-lr', color: COLORS.blue }, { key: 'Random Forest (Tuned)', id: 'chart-resid-rf', color: COLORS.green }, { key: 'XGBoost (Tuned)', id: 'chart-resid-xgb', color: COLORS.red }].forEach(({ key, id, color }) => {
         const rd = DATA.residuals[key]; const lbl = rd.edges.slice(0, -1).map((e, i) => ((e + rd.edges[i + 1]) / 2).toFixed(1));
-        new Chart(document.getElementById(id), { type: 'bar', data: { labels: lbl, datasets: [{ label: key.replace(' (Tuned)', ''), data: rd.counts, backgroundColor: color + '66', borderColor: color, borderWidth: 1, borderRadius: 3 }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: key.replace(' (Tuned)', ''), font: { size: 12, weight: '600' } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 8, font: { size: 9 } } } } } });
+        new Chart(document.getElementById(id), { type: 'bar', data: { labels: lbl, datasets: [{ label: key.replace(' (Tuned)', ''), data: rd.counts, backgroundColor: color + '66', borderColor: color, borderWidth: 1, borderRadius: 3 }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: key.replace(' (Tuned)', ''), font: { size: 13, weight: '600' } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 8, font: { size: 11 } } } } } });
     });
 }
 
@@ -251,7 +251,7 @@ function renderHealth() {
     new Chart(document.getElementById('chart-turnover'), {
         type: 'bar',
         data: { labels: sh.map(i => `${i.product.substr(0, 4)}-${i.brand.substr(0, 4)}`), datasets: [{ label: 'Turnover Ratio', data: sh.map(i => i.turnover_ratio), backgroundColor: turnoverColors.map(c => c + '88'), borderColor: turnoverColors, borderWidth: 1, borderRadius: 4 }] },
-        options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Inventory Turnover Ratio (higher = faster)', font: { size: 13, weight: '600' } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false }, ticks: { font: { size: 9 } } } } }
+        options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Inventory Turnover Ratio (higher = faster)', font: { size: 13, weight: '600' } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 45, minRotation: 45 } } } }
     });
 
     // Health table
