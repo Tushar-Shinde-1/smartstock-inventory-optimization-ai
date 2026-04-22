@@ -41,5 +41,9 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
           git add dashboard/smartstock_insights.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Automate daily inventory insights generation"
-          git push
+          if [ -n "$(git status --porcelain dashboard/smartstock_insights.json)" ]; then
+            git commit -m "Automate daily inventory insights generation"
+            git push
+          else
+            echo "No changes detected in dashboard/smartstock_insights.json. Skipping commit."
+          fi
