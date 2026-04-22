@@ -122,6 +122,7 @@ for product in df_raw['Product'].unique():
     avg_predicted = prod_data['Predicted_Demand'].mean()
     total_predicted = prod_data['Predicted_Demand'].sum()
     std_demand = df_raw[df_raw['Product'] == product]['Quantity Sold'].std()
+    if pd.isna(std_demand): std_demand = 0.0
 
     product_forecast.append({
         'product': product,
@@ -142,13 +143,16 @@ for product in df_raw['Product'].unique():
         subset = recent[mask]
         raw_mask = (df_raw['Product'] == product) & (df_raw['Brand'] == brand)
         raw_sub = df_raw[raw_mask]
+        
+        std_demand_brand = raw_sub['Quantity Sold'].std()
+        if pd.isna(std_demand_brand): std_demand_brand = 0.0
 
         product_brand_forecast.append({
             'product': product,
             'brand': brand,
             'avg_daily_demand': round(float(raw_sub['Quantity Sold'].mean()), 1),
             'predicted_demand': round(float(subset['Predicted_Demand'].mean()), 1),
-            'demand_std': round(float(raw_sub['Quantity Sold'].std()), 2),
+            'demand_std': round(float(std_demand_brand), 2),
             'avg_price': round(float(raw_sub['Unit Price (₹)'].mean()), 0),
             'current_stock': round(float(raw_sub['Stock Availability'].mean()), 0),
         })
@@ -321,6 +325,7 @@ for opt in inventory_optimization:
         alert = 'Healthy'
         priority = 'Normal'
         days_until_rop = round((current - rop) / max(opt['avg_daily_demand'], 0.5), 0)
+        if pd.isna(days_until_rop): days_until_rop = 0
         action = f'Stock OK — ~{int(days_until_rop)} days until reorder'
         order_qty = 0
         color = '#22c55e'
@@ -390,7 +395,7 @@ with open('dashboard/smartstock_insights.json', 'w') as f:
     json.dump(output, f, indent=2)
 
 print(f"\n{'='*60}")
-print(f"  ✅ SmartStock insights generated!")
+print(f"  [SUCCESS] SmartStock insights generated!")
 print(f"  Output: dashboard/smartstock_insights.json")
 print(f"  Forecasts: {len(product_brand_forecast)} product-brand combos")
 print(f"  Inventory: {len(inventory_optimization)} items with SS & ROP")
